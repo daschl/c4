@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
  * @author Michael Nitschinger
  * @since 2.0.0
  */
-public interface Request<R extends Response> {
+public interface Request<R> {
 
   /**
    * Returns the response represented by a {@link CompletableFuture} for this {@link Request}.

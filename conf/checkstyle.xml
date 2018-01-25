@@ -13,6 +13,8 @@
     To completely disable a check, just comment it out or delete it from the file.
 
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
+
+    Adapted by Couchbase, Inc. as needed.
  -->
 
 <module name = "Checker">

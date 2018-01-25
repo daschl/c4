@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
  * @author Michael Nitschinger
  * @since 2.0.0
  */
-public abstract class BaseRequest<R extends Response> implements Request<R> {
+public abstract class BaseRequest<R> implements Request<R> {
 
   /**
    * Atomic updater for the {@link #state} field.

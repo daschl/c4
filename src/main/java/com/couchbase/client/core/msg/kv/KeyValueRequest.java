@@ -17,7 +17,6 @@
 package com.couchbase.client.core.msg.kv;
 
 import com.couchbase.client.core.msg.Request;
-import com.couchbase.client.core.msg.Response;
 
 /**
  * The {@link KeyValueRequest} is the common parent interface for all KeyValue requests
@@ -26,5 +25,5 @@ import com.couchbase.client.core.msg.Response;
  * @author Michael Nitschinger
  * @since 2.0.0
  */
-public interface KeyValueRequest<R extends Response> extends Request<R> {
+public interface KeyValueRequest<R> extends Request<R> {
 }

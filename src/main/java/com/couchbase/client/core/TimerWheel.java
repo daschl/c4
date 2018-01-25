@@ -17,7 +17,6 @@
 package com.couchbase.client.core;
 
 import com.couchbase.client.core.msg.Request;
-import com.couchbase.client.core.msg.Response;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.concurrent.DefaultThreadFactory;
@@ -92,7 +91,7 @@ public class TimerWheel {
    * @param request the message to track for timeout.
    * @param <R>     the generic type of the message, not used at this point.
    */
-  public <R extends Response> void scheduleTimeout(final Request<R> request) {
+  public <R> void scheduleTimeout(final Request<R> request) {
     final Timeout timeout = timer.newTimeout(
         t -> request.fail(TIMEOUT_EXCEPTION),
         request.timeout().toNanos(),

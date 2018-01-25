@@ -17,13 +17,12 @@
 package com.couchbase.client.core.msg.kv;
 
 import com.couchbase.client.core.msg.BaseRequest;
-import com.couchbase.client.core.msg.Response;
 import io.opentracing.Span;
 
 import java.time.Duration;
 import java.util.Optional;
 
-public abstract class BaseKeyValueRequest<R extends Response>
+public abstract class BaseKeyValueRequest<R>
     extends BaseRequest<R>
     implements KeyValueRequest<R> {
 
