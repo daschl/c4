@@ -1,11 +1,20 @@
+/*
+ * Copyright (c) 2018 Couchbase, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.couchbase.client.core.msg;
-
-import org.junit.jupiter.api.Test;
-
-import java.time.Duration;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,6 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Verifies the functionality of the {@link BaseRequest}.
@@ -27,13 +43,13 @@ class BaseRequestTest {
   void shouldInitializeInIncompleteState() {
     DummyRequest request = new DummyRequest(TIMEOUT);
 
-    assertAll("message",
-      () -> assertFalse(request.hasFailed()),
-      () -> assertFalse(request.hasSucceeded()),
-      () -> assertFalse(request.hasCompleted()),
-      () -> assertNotNull(request.response()),
-      () -> assertEquals(TIMEOUT, request.timeout()),
-      () -> assertTrue(request.id() > 0)
+    assertAll(
+        () -> assertFalse(request.hasFailed()),
+        () -> assertFalse(request.hasSucceeded()),
+        () -> assertFalse(request.hasCompleted()),
+        () -> assertNotNull(request.response()),
+        () -> assertEquals(TIMEOUT, request.timeout()),
+        () -> assertTrue(request.id() > 0)
     );
   }
 
@@ -41,19 +57,19 @@ class BaseRequestTest {
   void shouldCompleteFutureIfProvided() {
     DummyRequest request = new DummyRequest(TIMEOUT);
 
-    assertAll("message",
-      () -> assertFalse(request.hasFailed()),
-      () -> assertFalse(request.hasSucceeded()),
-      () -> assertFalse(request.hasCompleted())
+    assertAll(
+        () -> assertFalse(request.hasFailed()),
+        () -> assertFalse(request.hasSucceeded()),
+        () -> assertFalse(request.hasCompleted())
     );
 
     request.succeed("It worked...");
 
-    assertAll("message",
-      () -> assertFalse(request.hasFailed()),
-      () -> assertTrue(request.hasSucceeded()),
-      () -> assertTrue(request.hasCompleted()),
-      () -> assertEquals("It worked...", request.response().get())
+    assertAll(
+        () -> assertFalse(request.hasFailed()),
+        () -> assertTrue(request.hasSucceeded()),
+        () -> assertTrue(request.hasCompleted()),
+        () -> assertEquals("It worked...", request.response().get())
     );
   }
 
@@ -61,19 +77,19 @@ class BaseRequestTest {
   void shouldFailFutureIfProvided() {
     DummyRequest request = new DummyRequest(TIMEOUT);
 
-    assertAll("message",
-      () -> assertFalse(request.hasFailed()),
-      () -> assertFalse(request.hasSucceeded()),
-      () -> assertFalse(request.hasCompleted())
+    assertAll(
+        () -> assertFalse(request.hasFailed()),
+        () -> assertFalse(request.hasSucceeded()),
+        () -> assertFalse(request.hasCompleted())
     );
 
     TimeoutException expectedException = new TimeoutException();
     request.fail(expectedException);
 
-    assertAll("message",
-      () -> assertTrue(request.hasFailed()),
-      () -> assertFalse(request.hasSucceeded()),
-      () -> assertTrue(request.hasCompleted())
+    assertAll(
+        () -> assertTrue(request.hasFailed()),
+        () -> assertFalse(request.hasSucceeded()),
+        () -> assertTrue(request.hasCompleted())
     );
 
     try {
@@ -94,19 +110,19 @@ class BaseRequestTest {
   void shouldWorkIfNeitherConsumerNorFutureAreProvided() {
     DummyRequest request = new DummyRequest(TIMEOUT);
 
-    assertAll("message",
-      () -> assertFalse(request.hasFailed()),
-      () -> assertFalse(request.hasSucceeded()),
-      () -> assertFalse(request.hasCompleted()),
-      () -> assertNotNull(request.response())
+    assertAll(
+        () -> assertFalse(request.hasFailed()),
+        () -> assertFalse(request.hasSucceeded()),
+        () -> assertFalse(request.hasCompleted()),
+        () -> assertNotNull(request.response())
     );
 
     request.succeed("Much stealth!");
 
-    assertAll("message",
-      () -> assertFalse(request.hasFailed()),
-      () -> assertTrue(request.hasSucceeded()),
-      () -> assertTrue(request.hasCompleted())
+    assertAll(
+        () -> assertFalse(request.hasFailed()),
+        () -> assertTrue(request.hasSucceeded()),
+        () -> assertTrue(request.hasCompleted())
     );
   }
 

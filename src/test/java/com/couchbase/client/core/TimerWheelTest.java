@@ -16,6 +16,14 @@
 
 package com.couchbase.client.core;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import com.couchbase.client.core.msg.BaseRequest;
 import com.couchbase.client.core.msg.Request;
 import org.junit.jupiter.api.AfterEach;
@@ -29,15 +37,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
-import static org.junit.jupiter.api.Assertions.fail;
-
 
 /**
  * Verifies the functionality of the {@link TimerWheel}.
@@ -83,14 +82,14 @@ class TimerWheelTest {
       } else {
         fail("Unexpected Exception", ex);
       }
-    } catch (Throwable t) {
-      fail("Unexpected Throwable", t);
+    } catch (Throwable th) {
+      fail("Unexpected Throwable", th);
     }
 
-    assertAll("message",
-      () -> assertTrue(request.hasCompleted()),
-      () -> assertTrue(request.hasFailed()),
-      () -> assertFalse(request.hasSucceeded())
+    assertAll(
+        () -> assertTrue(request.hasCompleted()),
+        () -> assertTrue(request.hasFailed()),
+        () -> assertFalse(request.hasSucceeded())
     );
   }
 
@@ -98,13 +97,13 @@ class TimerWheelTest {
   void shouldHaveNoPendingTasksIfConsumerCancelled() {
     assertEquals(0, wheel.scheduledTasks());
 
-    Timer timer = wheel.schedule(t -> {}, Duration.ofSeconds(2));
+    Timer timer = wheel.schedule(t -> { }, Duration.ofSeconds(2));
 
     assertEquals(1, wheel.scheduledTasks());
     timer.cancel();
 
     assertTimeout(Duration.ofSeconds(1), () -> {
-      while(wheel.scheduledTasks() != 0) {
+      while (wheel.scheduledTasks() != 0) {
         Thread.sleep(10);
       }
     });
@@ -131,7 +130,7 @@ class TimerWheelTest {
 
     int numTimers = 10;
     for (int i = 0; i < numTimers; i++) {
-      wheel.schedule(t -> {}, Duration.ofSeconds(1));
+      wheel.schedule(t -> { }, Duration.ofSeconds(1));
     }
 
     assertEquals(numTimers, wheel.scheduledTasks());
