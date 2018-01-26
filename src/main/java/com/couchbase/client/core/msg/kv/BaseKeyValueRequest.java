@@ -44,6 +44,11 @@ public abstract class BaseKeyValueRequest<R>
    */
   private final int opaque;
 
+  /**
+   * The partition for this request.
+   */
+  private volatile short partition;
+
   protected BaseKeyValueRequest(final Duration timeout, final Optional<Span> span) {
     super(timeout, span);
     opaque = OPAQUE.incrementAndGet();
@@ -52,6 +57,17 @@ public abstract class BaseKeyValueRequest<R>
   @Override
   public int opaque() {
     return opaque;
+  }
+
+  @Override
+  public KeyValueRequest<R> partition(short partition) {
+    this.partition = partition;
+    return this;
+  }
+
+  @Override
+  public short partition() {
+    return partition;
   }
 
 }

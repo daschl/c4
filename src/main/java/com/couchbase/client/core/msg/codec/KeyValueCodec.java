@@ -17,7 +17,6 @@
 package com.couchbase.client.core.msg.codec;
 
 import com.couchbase.client.core.msg.kv.GetRequest;
-import io.netty.buffer.Unpooled;
 
 import java.nio.ByteBuffer;
 
@@ -32,48 +31,52 @@ public class KeyValueCodec {
   /**
    * The binary protocol header size.
    */
-  private static final int HEADER_SIZE = 24;
+  static final int HEADER_SIZE = 24;
 
   /**
    * Signals that no extras are used in this packet.
    */
-  private static final int NO_EXTRAS = 0;
+  static final byte NO_EXTRAS = 0;
+
+  /**
+   * Signals that no CAS value is used in this packet.
+   */
+  static final long NO_CAS = 0;
 
   /**
    * Signals that no datatype is set in this packet.
    */
-  private static final int NO_DATATYPE = 0;
+  static final byte NO_DATATYPE = 0;
 
   /**
    * "magic" flag for requests.
    */
-  private static final byte MAGIC_REQ = (byte) 0x80;
+  static final byte MAGIC_REQ = (byte) 0x80;
 
   /**
    * The opcode for a KeyValue get operation.
    */
-  private static final byte OPCODE_GET = (byte) 0x00;
+  static final byte OPCODE_GET = (byte) 0x00;
 
   /**
    * Encodes the given {@link GetRequest} into its {@link ByteBuffer} representation.
    *
-   * @param getRequest the request.
+   * @param request the request.
    * @return the encoded buffer.
    */
-  public static ByteBuffer encode(final GetRequest getRequest) {
-    short keyLength = (short) getRequest.key().length;
-    return Unpooled
-      .buffer(HEADER_SIZE + keyLength)
-      .writeByte(MAGIC_REQ)
-      .writeByte(OPCODE_GET)
-      .writeShort(keyLength)
-      .writeByte(NO_EXTRAS)
-      .writeByte(NO_DATATYPE)
-      .writeShort(0) // FIXME: vbucket id
-      .writeInt(keyLength) // total body length
-      .writeInt(0) // FIXME: opaque
-      .writeLong(0) // FIXME: CAS
-      .nioBuffer();
+  public static ByteBuffer encode(final GetRequest request) {
+    short keyLength = (short) request.key().length;
+    return ByteBuffer.allocate(HEADER_SIZE + keyLength)
+      .put(MAGIC_REQ)
+      .put(OPCODE_GET)
+      .putShort(keyLength)
+      .put(NO_EXTRAS)
+      .put(NO_DATATYPE)
+      .putShort(request.partition())
+      .putInt(keyLength)
+      .putInt(request.opaque())
+      .putLong(NO_CAS)
+      .put(request.key());
   }
 
 }

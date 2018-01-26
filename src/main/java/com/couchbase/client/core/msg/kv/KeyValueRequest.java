@@ -34,4 +34,18 @@ public interface KeyValueRequest<R> extends Request<R> {
    */
   int opaque();
 
+  /**
+   * Allows to set the partition for the this request.
+   *
+   * @param partition the partition to set.
+   * @return this {@link KeyValueRequest} for chaining purposes.
+   */
+  KeyValueRequest<R> partition(short partition);
+
+  /**
+   * Returns the partition, if set, on this request.
+   *
+   * @return the partition or 0 if not set.
+   */
+  short partition();
 }

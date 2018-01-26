@@ -16,6 +16,7 @@
 
 package com.couchbase.client.core.msg.kv;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.couchbase.client.core.msg.Request;
@@ -42,6 +43,14 @@ class BaseKeyValueRequestTest {
       assertTrue(opaque != lastOpaque);
       lastOpaque = opaque;
     }
+  }
+
+  @Test
+  void shouldSetPartition() {
+    DummyRequest request = new DummyRequest();
+    assertEquals(0, request.partition());
+    request.partition((short) 123);
+    assertEquals((short) 123, request.partition());
   }
 
   /**
