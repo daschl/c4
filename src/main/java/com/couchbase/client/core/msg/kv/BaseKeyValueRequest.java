@@ -70,4 +70,17 @@ public abstract class BaseKeyValueRequest<R>
     return partition;
   }
 
+  /**
+   * Helper method which can be called from children that need to verify
+   * that a key is certain shape.
+   *
+   * @param key the key to check
+   */
+  static void verifyKey(final byte[] key) {
+    if (key == null || key.length > 250 || key.length == 0) {
+      throw new IllegalArgumentException("The encoded document key must "
+        + "be between 1 and 250 bytes in size.");
+    }
+  }
+
 }

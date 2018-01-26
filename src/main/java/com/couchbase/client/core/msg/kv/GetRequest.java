@@ -42,6 +42,7 @@ public final class GetRequest extends BaseKeyValueRequest<GetResponse> {
    */
   public GetRequest(final byte[] key, final Duration timeout, final Optional<Span> span) {
     super(timeout, span);
+    verifyKey(key);
     this.key = key;
   }
 

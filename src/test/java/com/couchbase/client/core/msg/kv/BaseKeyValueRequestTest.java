@@ -16,13 +16,16 @@
 
 package com.couchbase.client.core.msg.kv;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.couchbase.client.core.msg.Request;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -51,6 +54,22 @@ class BaseKeyValueRequestTest {
     assertEquals(0, request.partition());
     request.partition((short) 123);
     assertEquals((short) 123, request.partition());
+  }
+
+  @Test
+  void shouldVerifyKeyLength() {
+    final byte[] empty = new byte[] {};
+    final byte[] large = new byte[251];
+    Arrays.fill(large, (byte) 'A');
+
+    assertAll(
+        () ->
+          assertThrows(IllegalArgumentException.class, () -> BaseKeyValueRequest.verifyKey(null)),
+        () ->
+          assertThrows(IllegalArgumentException.class, () -> BaseKeyValueRequest.verifyKey(empty)),
+        () ->
+          assertThrows(IllegalArgumentException.class, () -> BaseKeyValueRequest.verifyKey(large))
+    );
   }
 
   /**

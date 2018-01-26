@@ -56,6 +56,7 @@ class KeyValueCodecTest {
         () -> assertOpaque(encoded, request.opaque()),
         () -> assertPartition(encoded, request.partition()),
         () -> assertCas(encoded, KeyValueCodec.NO_CAS),
+        () -> assertDatatype(encoded, KeyValueCodec.NO_DATATYPE),
         () -> assertKey(encoded, key),
         () -> assertNoExtras(encoded)
     );
@@ -108,6 +109,16 @@ class KeyValueCodecTest {
    */
   private static void assertCas(final ByteBuffer buf, final long cas) {
     assertEquals(cas, buf.getLong(16));
+  }
+
+  /**
+   * Helper method to check if the request has the proper datatype set.
+   *
+   * @param buf the buffer to check.
+   * @param datatype the datatype to verify.
+   */
+  private static void assertDatatype(final ByteBuffer buf, final byte datatype) {
+    assertEquals(datatype, buf.get(5));
   }
 
   /**
