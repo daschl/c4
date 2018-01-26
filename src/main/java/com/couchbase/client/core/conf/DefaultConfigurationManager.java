@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.couchbase.client.core.io;
-
-import com.couchbase.client.core.msg.Request;
+package com.couchbase.client.core.conf;
 
 /**
- * The {@link Endpoint} acts as a wrapper interface for different IO plugins.
- *
- * @author Michael Nitschinger
- * @since 2.0.0
+ * Default implementation of a {@link ConfigurationManager}.
  */
-public interface Endpoint {
+public class DefaultConfigurationManager implements ConfigurationManager {
 
-  <R> void dispatch(Request<R> request);
+  @Override
+  public ClusterTopology topology() {
+    return null;
+  }
 
 }

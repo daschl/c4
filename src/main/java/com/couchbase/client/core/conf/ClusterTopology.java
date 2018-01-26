@@ -16,8 +16,26 @@
 
 package com.couchbase.client.core.conf;
 
+import com.couchbase.client.core.io.Endpoint;
+import com.couchbase.client.core.msg.Request;
+
+import java.util.Optional;
+
+/**
+ * The {@link ClusterTopology} represents the current state.
+ *
+ * @author Michael Nitschinger
+ * @since 2.0.0
+ */
 public interface ClusterTopology {
 
-
+  /**
+   * Locates an endpoint for the given request, or none if not possible.
+   *
+   * @param request the request to locate an endpoint for.
+   * @param <R> the response type, inferred.
+   * @return an endpoint if found, none otherwise.
+   */
+  <R> Optional<Endpoint> locate(Request<R> request);
 
 }

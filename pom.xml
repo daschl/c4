@@ -12,8 +12,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Versions for Dependencies -->
         <netty.version>4.1.20.Final</netty.version>
         <opentracing.version>0.31.0</opentracing.version>
+        <rxjava.version>2.1.8</rxjava.version>
     </properties>
 
     <dependencies>
@@ -26,6 +28,11 @@
             <groupId>io.opentracing</groupId>
             <artifactId>opentracing-api</artifactId>
             <version>${opentracing.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>${rxjava.version}</version>
         </dependency>
 
         <!-- Test Dependencies -->

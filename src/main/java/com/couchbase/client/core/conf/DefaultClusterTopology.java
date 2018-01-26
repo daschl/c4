@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package com.couchbase.client.core.io;
+package com.couchbase.client.core.conf;
 
+import com.couchbase.client.core.io.Endpoint;
 import com.couchbase.client.core.msg.Request;
 
+import java.util.Optional;
+
 /**
- * The {@link Endpoint} acts as a wrapper interface for different IO plugins.
+ * The main implementation of a {@link ClusterTopology}.
  *
  * @author Michael Nitschinger
  * @since 2.0.0
  */
-public interface Endpoint {
+public class DefaultClusterTopology implements ClusterTopology {
 
-  <R> void dispatch(Request<R> request);
+  @Override
+  public <R> Optional<Endpoint> locate(Request<R> request) {
+    return Optional.empty();
+  }
 
 }

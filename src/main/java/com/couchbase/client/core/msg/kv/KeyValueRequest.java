@@ -26,4 +26,12 @@ import com.couchbase.client.core.msg.Request;
  * @since 2.0.0
  */
 public interface KeyValueRequest<R> extends Request<R> {
+
+  /**
+   * Returns the opaque for this request.
+   *
+   * @return the opaque, automatically created.
+   */
+  int opaque();
+
 }

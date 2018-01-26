@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package com.couchbase.client.core.io;
-
-import com.couchbase.client.core.msg.Request;
+package com.couchbase.client.core.conf;
 
 /**
- * The {@link Endpoint} acts as a wrapper interface for different IO plugins.
+ * The {@link ConfigurationManager} handles incoming cluster configs and updates the
+ * {@link ClusterTopology} which is used for dispatching.
  *
  * @author Michael Nitschinger
  * @since 2.0.0
  */
-public interface Endpoint {
+public interface ConfigurationManager {
 
-  <R> void dispatch(Request<R> request);
+  /**
+   * Returns the topology in use.
+   *
+   * @return the topology in use.
+   */
+  ClusterTopology topology();
 
 }

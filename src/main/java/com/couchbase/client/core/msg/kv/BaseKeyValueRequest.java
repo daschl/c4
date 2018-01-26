@@ -21,13 +21,37 @@ import io.opentracing.Span;
 
 import java.time.Duration;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Base class for all {@link KeyValueRequest KeyValueRequests}.
+ *
+ * @author Michael Nitschinger
+ * @since 2.0.0
+ * @param <R> the response type.
+ */
 public abstract class BaseKeyValueRequest<R>
     extends BaseRequest<R>
     implements KeyValueRequest<R> {
 
+  /**
+   * A ever-increasing, unique message ID for every message created.
+   */
+  private static final AtomicInteger OPAQUE = new AtomicInteger(0);
+
+  /**
+   * The opaque for this request.
+   */
+  private final int opaque;
+
   protected BaseKeyValueRequest(final Duration timeout, final Optional<Span> span) {
     super(timeout, span);
+    opaque = OPAQUE.incrementAndGet();
+  }
+
+  @Override
+  public int opaque() {
+    return opaque;
   }
 
 }

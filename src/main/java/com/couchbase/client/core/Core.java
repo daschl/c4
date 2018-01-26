@@ -16,9 +16,14 @@
 
 package com.couchbase.client.core;
 
+import com.couchbase.client.core.conf.ConfigurationManager;
+import com.couchbase.client.core.conf.DefaultConfigurationManager;
 import com.couchbase.client.core.env.CoreEnvironment;
+import com.couchbase.client.core.io.Endpoint;
 import com.couchbase.client.core.msg.Request;
 import com.couchbase.client.core.msg.Response;
+
+import java.util.Optional;
 
 /**
  * This class is the main entry point when working with this library.
@@ -30,6 +35,7 @@ public class Core {
 
   private final CoreEnvironment environment;
   private final TimerWheel timerWheel;
+  private final ConfigurationManager configurationManager;
 
   public static Core create(final CoreEnvironment environment) {
     return new Core(environment);
@@ -38,6 +44,7 @@ public class Core {
   private Core(final CoreEnvironment environment) {
     this.environment = environment;
     this.timerWheel = TimerWheel.create();
+    this.configurationManager = new DefaultConfigurationManager();
   }
 
   /**
@@ -51,7 +58,13 @@ public class Core {
    */
   <R extends Response> void dispatch(final Request<R> request) {
     timerWheel.scheduleTimeout(request);
-    // todo: now dispatch into the topology
+
+    Optional<Endpoint> endpoint = configurationManager.topology().locate(request);
+    if (endpoint.isPresent()) {
+      endpoint.get().dispatch(request);
+    } else {
+      // todo: not found! put into retry or cancel loop
+    }
   }
 
 }

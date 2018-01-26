@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.couchbase.client.core.io;
-
-import com.couchbase.client.core.msg.Request;
+package com.couchbase.client.core.error;
 
 /**
- * The {@link Endpoint} acts as a wrapper interface for different IO plugins.
+ * The base exception class for all couchbase-specific errors.
  *
  * @author Michael Nitschinger
  * @since 2.0.0
  */
-public interface Endpoint {
-
-  <R> void dispatch(Request<R> request);
-
+public class CouchbaseException extends RuntimeException {
 }

@@ -17,6 +17,7 @@
 package com.couchbase.client.core.io.netty;
 
 import com.couchbase.client.core.io.Endpoint;
+import com.couchbase.client.core.msg.Request;
 
 /**
  * The netty-based implementation of an {@link Endpoint}.
@@ -25,4 +26,10 @@ import com.couchbase.client.core.io.Endpoint;
  * @since 2.0.0
  */
 public class NettyEndpoint implements Endpoint {
+
+  @Override
+  public <R> void dispatch(Request<R> request) {
+
+  }
+
 }
