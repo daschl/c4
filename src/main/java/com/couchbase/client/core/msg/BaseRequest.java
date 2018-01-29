@@ -18,6 +18,7 @@ package com.couchbase.client.core.msg;
 
 import io.opentracing.Span;
 
+import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -124,6 +125,12 @@ public abstract class BaseRequest<R> implements Request<R> {
   @Override
   public Optional<Span> span() {
     return span;
+  }
+
+  @Override
+  public ByteBuffer encode() {
+    throw new UnsupportedOperationException("This Request is not encodable, "
+      + "please implement this method.");
   }
 
   /**

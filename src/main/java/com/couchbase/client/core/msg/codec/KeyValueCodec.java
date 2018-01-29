@@ -59,6 +59,11 @@ public class KeyValueCodec {
   static final byte OPCODE_GET = (byte) 0x00;
 
   /**
+   * The offset of bytes for the opaque header field.
+   */
+  public static final int OPAQUE_OFFSET = 12;
+
+  /**
    * Encodes the given {@link GetRequest} into its {@link ByteBuffer} representation.
    *
    * @param request the request.
@@ -66,17 +71,18 @@ public class KeyValueCodec {
    */
   public static ByteBuffer encode(final GetRequest request) {
     short keyLength = (short) request.key().length;
-    return ByteBuffer.allocate(HEADER_SIZE + keyLength)
-      .put(MAGIC_REQ)
-      .put(OPCODE_GET)
-      .putShort(keyLength)
-      .put(NO_EXTRAS)
-      .put(NO_DATATYPE)
-      .putShort(request.partition())
-      .putInt(keyLength)
-      .putInt(request.opaque())
-      .putLong(NO_CAS)
-      .put(request.key());
+    ByteBuffer buffer = ByteBuffer.allocate(HEADER_SIZE + keyLength)
+        .put(MAGIC_REQ)
+        .put(OPCODE_GET)
+        .putShort(keyLength)
+        .put(NO_EXTRAS)
+        .put(NO_DATATYPE)
+        .putShort(request.partition())
+        .putInt(keyLength)
+        .putInt(request.opaque())
+        .putLong(NO_CAS)
+        .put(request.key());
+    return buffer;
   }
 
 }

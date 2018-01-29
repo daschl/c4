@@ -16,8 +16,10 @@
 
 package com.couchbase.client.core.msg.kv;
 
+import com.couchbase.client.core.msg.codec.KeyValueCodec;
 import io.opentracing.Span;
 
+import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -54,4 +56,10 @@ public final class GetRequest extends BaseKeyValueRequest<GetResponse> {
   public byte[] key() {
     return key;
   }
+
+  @Override
+  public ByteBuffer encode() {
+    return KeyValueCodec.encode(this);
+  }
+
 }

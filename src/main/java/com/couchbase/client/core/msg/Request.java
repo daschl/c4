@@ -18,6 +18,7 @@ package com.couchbase.client.core.msg;
 
 import io.opentracing.Span;
 
+import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -98,5 +99,12 @@ public interface Request<R> {
    * @return the span for tracing, none if not set.
    */
   Optional<Span> span();
+
+  /**
+   * Encodes this request into its on-the-wire representation.
+   *
+   * @return the encoded request.
+   */
+  ByteBuffer encode();
 
 }

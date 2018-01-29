@@ -98,7 +98,7 @@ class KeyValueCodecTest {
    * @param opaque the opaque to verify.
    */
   private static void assertOpaque(final ByteBuffer buf, final int opaque) {
-    assertEquals(opaque, buf.getInt(12));
+    assertEquals(opaque, buf.getInt(KeyValueCodec.OPAQUE_OFFSET));
   }
 
   /**
